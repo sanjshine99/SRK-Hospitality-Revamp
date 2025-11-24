@@ -3,7 +3,6 @@
 import React, { forwardRef, useMemo, useRef, useState, useEffect } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { motion } from "framer-motion";
-import sectionsSeed from "./menu.json";
 
 // ---------- Colors ----------
 const COLORS = {
@@ -182,7 +181,12 @@ const SectionPage = forwardRef(({ title, subtitle, items, mode }, ref) => (
 SectionPage.displayName = "SectionPage";
 
 // ---------- Main Component ----------
-export default function MenuFlipbook() {
+export default function RestaurantMenuFlipbook({
+  restaurantName = "Restaurant",
+  tagline = "Delicious Food & Great Service",
+  menuSections = [],
+  accentColor = "#DDB64E",
+}) {
   const flipRef = useRef(null);
   const [page, setPage] = useState(0);
   const [bookSize, setBookSize] = useState({ width: 700, height: 900 });
@@ -221,14 +225,14 @@ export default function MenuFlipbook() {
     arr.push(
       <CoverPage
         key="cover"
-        restaurant="Al Naseeb"
-        tagline="Authentic Indian Cuisine with a Modern Touch"
+        restaurant={restaurantName}
+        tagline={tagline}
         mode={mode}
       />
     );
 
     let currentIndex = 1;
-    sectionsSeed.forEach((section) => {
+    menuSections.forEach((section) => {
       map[section.id] = currentIndex;
       const chunks = paginateByHeight(section.items, 700);
       chunks.forEach((chunk, idx) => {
@@ -247,7 +251,7 @@ export default function MenuFlipbook() {
       });
     });
     return { pages: arr, sectionPageMap: map };
-  }, [mode]);
+  }, [mode, menuSections, restaurantName, tagline]);
 
   const goPrev = () => flipRef.current?.pageFlip()?.flipPrev();
   const goNext = () => flipRef.current?.pageFlip()?.flipNext();
@@ -259,10 +263,10 @@ export default function MenuFlipbook() {
       style={{ background: mode.background }}
     >
       {/* Header */}
-      <div className="mb-4  mx-auto max-w-7xl rounded-3xl flex flex-col items-center justify-between gap-3 sm:mb-6 sm:flex-row">
+      <div className="mb-4 mx-auto max-w-7xl rounded-3xl flex flex-col items-center justify-between gap-3 sm:mb-6 sm:flex-row">
         <h1
           className="text-2xl font-bold tracking-tight"
-          style={{ color: COLORS.gold }}
+          style={{ color: accentColor }}
         >
           Restaurant Menu
         </h1>
@@ -272,7 +276,7 @@ export default function MenuFlipbook() {
             className="rounded-2xl border px-3 py-2 text-sm shadow-md hover:scale-105 transition-transform duration-300 font-semibold"
             style={{
               color: mode.text,
-              borderColor: COLORS.gold,
+              borderColor: accentColor,
               backgroundColor: mode.buttonBg,
             }}
           >
@@ -290,7 +294,7 @@ export default function MenuFlipbook() {
             className="rounded-2xl border px-3 py-2 text-sm shadow-md hover:scale-105 transition-transform duration-300 font-semibold"
             style={{
               color: mode.text,
-              borderColor: COLORS.gold,
+              borderColor: accentColor,
               backgroundColor: mode.buttonBg,
             }}
           >
@@ -327,29 +331,31 @@ export default function MenuFlipbook() {
       </div>
 
       {/* Quick Navigator */}
-      <div className="mx-auto mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {sectionsSeed.map((s) => {
-          const target = sectionPageMap[s.id];
-          const isActive =
-            page === target || page === target - 1 || page === target + 1;
-          return (
-            <button
-              key={s.id}
-              onClick={() => goTo(target)}
-              className={`rounded-2xl border px-3 py-2 text-sm shadow-md hover:scale-105 transition-transform duration-300 font-semibold ${
-                isActive ? "ring-2" : ""
-              }`}
-              style={{
-                color: mode.text,
-                borderColor: COLORS.gold,
-                backgroundColor: mode.buttonBg,
-              }}
-            >
-              {s.title}
-            </button>
-          );
-        })}
-      </div>
+      {menuSections.length > 0 && (
+        <div className="mx-auto mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2">
+          {menuSections.map((s) => {
+            const target = sectionPageMap[s.id];
+            const isActive =
+              page === target || page === target - 1 || page === target + 1;
+            return (
+              <button
+                key={s.id}
+                onClick={() => goTo(target)}
+                className={`rounded-2xl border px-3 py-2 text-sm shadow-md hover:scale-105 transition-transform duration-300 font-semibold ${
+                  isActive ? "ring-2" : ""
+                }`}
+                style={{
+                  color: mode.text,
+                  borderColor: accentColor,
+                  backgroundColor: mode.buttonBg,
+                }}
+              >
+                {s.title}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

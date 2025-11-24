@@ -1,41 +1,48 @@
 import React from "react";
 
-// Sections from components/HomePage
-import AboutSection from "../components/AlnaseebrestaurantPage/AboutSection";
-import MenuFlipbook from "../components/AlnaseebrestaurantPage/MenuFlipbook";
-import Gallery from "../components/AlnaseebrestaurantPage/Gallery";
+// Common Restaurant Components
+import RestaurantWelcomeSection from "../components/common/restaurant/RestaurantWelcomeSection";
+import RestaurantAboutSection from "../components/common/restaurant/RestaurantAboutSection";
+import RestaurantMenuFlipbook from "../components/common/restaurant/RestaurantMenuFlipbook";
+import RestaurantGallerySection from "../components/common/restaurant/RestaurantGallerySection";
+import RestaurantContactSection from "../components/common/restaurant/RestaurantContactSection";
+import RestaurantMapSection from "../components/common/restaurant/RestaurantMapSection";
 
-import ContactSection from "../components/AlnaseebrestaurantPage/ContactSection";
-import MapSection from "../components/AlnaseebrestaurantPage/MapSection";
-import WelcomeSection from "../components/AlnaseebrestaurantPage/WelcomeSection";
+// Restaurant Data
+import { alnaseebData } from "../data/alnaseeb/restaurantData";
+
 export default function Alnaseeb() {
   return (
     <div>
       {/* Hero */}
       <section>
-        <WelcomeSection />
-      </section>
-      <section >
-        <AboutSection/>
+        <RestaurantWelcomeSection {...alnaseebData.welcome} />
       </section>
 
+      {/* About */}
       <section>
-        <MenuFlipbook />
+        <RestaurantAboutSection {...alnaseebData.about} />
       </section>
-      <section>
-        <Gallery />
-      </section>
-   
 
-
-      
-         <section>
-        <ContactSection />
-      </section>
+      {/* Menu */}
       <section>
-        <MapSection />
+        <RestaurantMenuFlipbook {...alnaseebData.menu} />
       </section>
-   
+
+      {/* Gallery */}
+      <section>
+        <RestaurantGallerySection {...alnaseebData.gallery} />
+      </section>
+
+      {/* Contact */}
+      <section>
+        <RestaurantContactSection {...alnaseebData.contact} />
+      </section>
+
+      {/* Map */}
+      <section>
+        <RestaurantMapSection {...alnaseebData.map} />
+      </section>
     </div>
   );
 }

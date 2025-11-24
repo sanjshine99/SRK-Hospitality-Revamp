@@ -1,15 +1,18 @@
 'use client';
 import React from "react";
 
-export default function WelcomeSection() {
-  const brandGold = "#DDB64E";
-
+export default function RestaurantWelcomeSection({ 
+  title, 
+  subtitle, 
+  backgroundImage, 
+  brandColor = "#DDB64E" 
+}) {
   return (
     <section className="relative w-full h-[100vh] font-[Playfair_Display]">
       {/* Background Image */}
       <img
-        src="/al-naseeb-heo.png"
-        alt="Al Naseeb"
+        src={backgroundImage}
+        alt={title}
         className="absolute inset-0 w-full h-full object-cover"
       />
 
@@ -22,11 +25,11 @@ export default function WelcomeSection() {
         <h1
           className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 tracking-wide"
           style={{
-            color: brandGold,
+            color: brandColor,
             textShadow: "0 4px 15px rgba(0,0,0,0.6)",
           }}
         >
-          AL NASEEB
+          {title}
         </h1>
 
         {/* Subtitle */}
@@ -37,14 +40,13 @@ export default function WelcomeSection() {
             textShadow: "0 2px 10px rgba(0,0,0,0.5)",
           }}
         >
-          Discover the authentic taste of India — where traditional spices meet
-          modern culinary artistry in a warm, elegant setting.
+          {subtitle}
         </p>
 
         {/* Accent Line */}
         <div
           className="w-24 h-[3px] mt-6 rounded-full"
-          style={{ backgroundColor: brandGold }}
+          style={{ backgroundColor: brandColor }}
         ></div>
       </div>
     </section>
